@@ -13,6 +13,7 @@ The following table illustrates the elements in a HTTP log event:
 | **%h** *(95.22.50.11)* | source of the request (client) |
 | **%l** *(-)* | RFC 1413 identity of the client determined by identd on the clients machine | 
 | **%u** *(-)* | Userid of the person requesting the document as determined by http authentication |
+| **%t** *([09/Sep/2013:16:36:44 -0700])* | time at which the request was received, format: [day/month/year:hour:minute:second zone] |
 | **\"%r\"** *("GET /test.php HTTP/1.1")* | indicates info about method used by the client is `GET`, client requested resource `/test.php` & client used protocol `HTTP/1.1` |
 | **%>s** *(200)* | status code that the server sends back to the client |
 | **%b** *(1832)* | size of the object returned to the client, not including the response headers |
