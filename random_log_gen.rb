@@ -72,6 +72,18 @@ class LogGenerator
     'css' => 5,
   }
 
+  URLs = {
+    '/' => 50,
+    '/aboutus.html' => 5,
+    '/contactus.html' => 5,
+    '/services.html' => 15,
+    '/services/nested_page.html' => 5,
+    '/test.php' => 5,
+    '/test.png' => 5,
+    '/test.gif' => 5,
+    '/test.css' => 5
+  }
+
   RESPONSE_CODES = {
     200 => 92,
     404 => 5,
@@ -101,12 +113,12 @@ class LogGenerator
   def write(dest, count)
     count.times do
       ip        = @ipgen.get_ip
-      ext       = pick_weighted_key(EXTENSIONS)
+      req_url   = pick_weighted_key(URLs)
       resp_code = pick_weighted_key(RESPONSE_CODES)
       resp_size = Kernel.rand(2 * 1024) + 192;
       ua        = pick_weighted_key(USER_AGENTS)
       date      = Time.now.strftime("%d/%b/%Y:%H:%M:%S %z")
-      dest.write("#{ip} - - [#{date}] \"GET /test.#{ext} HTTP/1.1\" " +
+      dest.write("#{ip} - - [#{date}] \"GET #{req_url} HTTP/1.1\" " +
                  "#{resp_code} #{resp_size} \"-\" \"#{ua}\"\n")
     end
   end

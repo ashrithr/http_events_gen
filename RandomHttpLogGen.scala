@@ -69,6 +69,18 @@ class LogGenerator(val ipGenObj: IPGenerator, var messagesCount: Int = 1) {
 			"503" -> 3
 		)
 
+	val URLS = Map(
+	    "/" -> 50,
+	    "/aboutus.html" -> 5,
+	    "/contactus.html" -> 5,
+	    "/services.html" -> 15,
+	    "/services/nested_page.html" -> 5,
+	    "/test.php" -> 5,
+	    "/test.png" -> 5,
+	    "/test.gif" -> 5,
+	    "/test.css" -> 5		
+		)
+
 	val USER_AGENTS = Map(
 			"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)" -> 30,
 	    "Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.50 Safari/534.24" -> 30,
@@ -89,7 +101,7 @@ class LogGenerator(val ipGenObj: IPGenerator, var messagesCount: Int = 1) {
 
 	def write(dest: FileWriter) = {
 		val ip = ipGenObj.get_ip
-		val ext = pickWeightedKey(EXTENSIONS)
+		val url = pickWeightedKey(URLS)
 		val resp_code = pickWeightedKey(RESPONSE_CODES)
 		val resp_size = random.nextInt(2 * 1024) + 192;
 		val ua = pickWeightedKey(USER_AGENTS)
@@ -97,7 +109,7 @@ class LogGenerator(val ipGenObj: IPGenerator, var messagesCount: Int = 1) {
 		val date = format.format(new java.util.Date())
 		try { 
 			val bw = new BufferedWriter(dest)
-			bw.write(s"${ip} - - [${date}]" + " \"GET /test." + ext + " HTTP/1.1\" " +
+			bw.write(s"${ip} - - [${date}]" + " \"GET " + url + " HTTP/1.1\" " +
 				s"${resp_code} ${resp_size} " + "\"-\" \"" + ua + "\"\n")	
 			bw.flush()	  
 		} catch {
